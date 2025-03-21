@@ -1,50 +1,51 @@
 
-import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
-import { TooltipProvider } from "@/components/ui/tooltip";
-import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import { CartProvider } from "./context/CartContext";
-import { OrderProvider } from "./context/OrderContext";
+import { Suspense, lazy } from 'react';
+import { Routes, Route, Navigate } from 'react-router-dom';
+import CartContextProvider from './context/CartContext';
+import OrderContextProvider from './context/OrderContext';
+import './App.css';
 
-// Pages
-import Index from "./pages/Index";
-import ProductsPage from "./pages/ProductsPage";
-import ProductDetail from "./pages/ProductDetail";
-import CartPage from "./pages/CartPage";
-import CheckoutPage from "./pages/CheckoutPage";
-import OrdersPage from "./pages/OrdersPage";
-import OrderDetail from "./pages/OrderDetail";
-import CustomerCareChat from "./components/CustomerCareChat";
-import NotFound from "./pages/NotFound";
+// Lazy load pages for better performance
+const IndexPage = lazy(() => import('./pages/Index'));
+const ProductsPage = lazy(() => import('./pages/ProductsPage'));
+const ProductDetail = lazy(() => import('./pages/ProductDetail'));
+const CartPage = lazy(() => import('./pages/CartPage'));
+const CheckoutPage = lazy(() => import('./pages/CheckoutPage'));
+const OrdersPage = lazy(() => import('./pages/OrdersPage'));
+const OrderDetail = lazy(() => import('./pages/OrderDetail'));
+const CustomerCareChat = lazy(() => import('./components/CustomerCareChat'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const FAQPage = lazy(() => import('./pages/FAQPage'));
+const ShippingPage = lazy(() => import('./pages/ShippingPage'));
+const ReturnsPage = lazy(() => import('./pages/ReturnsPage'));
 
-const queryClient = new QueryClient();
-
-const App = () => (
-  <QueryClientProvider client={queryClient}>
-    <TooltipProvider>
-      <CartProvider>
-        <OrderProvider>
-          <Toaster />
-          <Sonner />
-          <BrowserRouter>
-            <Routes>
-              <Route path="/" element={<Index />} />
-              <Route path="/products" element={<ProductsPage />} />
-              <Route path="/products/category/:category" element={<ProductsPage />} />
-              <Route path="/product/:productId" element={<ProductDetail />} />
-              <Route path="/cart" element={<CartPage />} />
-              <Route path="/checkout" element={<CheckoutPage />} />
-              <Route path="/orders" element={<OrdersPage />} />
-              <Route path="/order/:orderId" element={<OrderDetail />} />
-              <Route path="/order/:orderId/support" element={<CustomerCareChat />} />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
-          </BrowserRouter>
-        </OrderProvider>
-      </CartProvider>
-    </TooltipProvider>
-  </QueryClientProvider>
-);
+function App() {
+  return (
+    <CartContextProvider>
+      <OrderContextProvider>
+        <Suspense fallback={<div className="flex h-screen items-center justify-center">Loading...</div>}>
+          <Routes>
+            <Route path="/" element={<IndexPage />} />
+            <Route path="/products" element={<ProductsPage />} />
+            <Route path="/products/category/:category" element={<ProductsPage />} />
+            <Route path="/product/:productId" element={<ProductDetail />} />
+            <Route path="/cart" element={<CartPage />} />
+            <Route path="/checkout" element={<CheckoutPage />} />
+            <Route path="/orders" element={<OrdersPage />} />
+            <Route path="/order/:orderId" element={<OrderDetail />} />
+            <Route path="/customer-care/:orderId" element={<CustomerCareChat />} />
+            <Route path="/contact" element={<ContactPage />} />
+            <Route path="/faq" element={<FAQPage />} />
+            <Route path="/shipping" element={<ShippingPage />} />
+            <Route path="/returns" element={<ReturnsPage />} />
+            <Route path="/404" element={<NotFound />} />
+            <Route path="*" element={<Navigate to="/404" replace />} />
+          </Routes>
+        </Suspense>
+      </OrderContextProvider>
+    </CartContextProvider>
+  );
+}
 
 export default App;

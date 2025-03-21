@@ -1,7 +1,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { ShoppingBag, User, Menu, X } from 'lucide-react';
+import { ShoppingBag, Menu, X, ClipboardList } from 'lucide-react';
 import { useCart } from '../context/CartContext';
 import { cn } from '../lib/utils';
 
@@ -77,7 +77,7 @@ const Navbar: React.FC = () => {
             className="p-2 rounded-full hover:bg-gray-100 transition-colors"
             aria-label="My Orders"
           >
-            <User size={20} />
+            <ClipboardList size={20} />
           </Link>
           <Link
             to="/cart"
@@ -167,7 +167,7 @@ const Navbar: React.FC = () => {
               onClick={() => setIsMobileMenuOpen(false)}
             >
               <div className="p-3 rounded-full bg-gray-100 mb-2">
-                <User size={24} />
+                <ClipboardList size={24} />
               </div>
               <span className="text-sm">My Orders</span>
             </Link>

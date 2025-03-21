@@ -19,6 +19,7 @@ type FormData = {
   state: string;
   zipCode: string;
   country: string;
+  paymentMethod: string;
   cardName: string;
   cardNumber: string;
   expDate: string;
@@ -39,6 +40,7 @@ const CheckoutPage: React.FC = () => {
     state: '',
     zipCode: '',
     country: 'United States',
+    paymentMethod: 'card',
     cardName: '',
     cardNumber: '',
     expDate: '',
@@ -77,7 +79,7 @@ const CheckoutPage: React.FC = () => {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     
-    if (!formData.cardName || !formData.cardNumber || !formData.expDate || !formData.cvv) {
+    if (formData.paymentMethod === 'card' && (!formData.cardName || !formData.cardNumber || !formData.expDate || !formData.cvv)) {
       toast.error("Please fill in all payment details");
       return;
     }
@@ -106,6 +108,7 @@ const CheckoutPage: React.FC = () => {
           zip: formData.zipCode,
           country: formData.country,
         },
+        paymentMethod: formData.paymentMethod
       });
       
       // Clear the cart after successful order
@@ -295,6 +298,7 @@ const CheckoutPage: React.FC = () => {
                             <option value="Canada">Canada</option>
                             <option value="Mexico">Mexico</option>
                             <option value="United Kingdom">United Kingdom</option>
+                            <option value="India">India</option>
                           </select>
                         </div>
                       </div>
@@ -312,71 +316,113 @@ const CheckoutPage: React.FC = () => {
                   ) : (
                     <>
                       <h2 className="text-xl font-semibold mb-6">Payment Information</h2>
-                      
-                      <div className="mb-4">
-                        <label htmlFor="cardName" className="block text-sm font-medium text-gray-700 mb-1">
-                          Name on Card <span className="text-red-500">*</span>
+
+                      <div className="mb-6">
+                        <label className="block text-sm font-medium text-gray-700 mb-2">
+                          Payment Method <span className="text-red-500">*</span>
                         </label>
-                        <input
-                          type="text"
-                          id="cardName"
-                          name="cardName"
-                          value={formData.cardName}
-                          onChange={handleChange}
-                          required
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
-                        />
-                      </div>
-                      
-                      <div className="mb-4">
-                        <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-1">
-                          Card Number <span className="text-red-500">*</span>
-                        </label>
-                        <input
-                          type="text"
-                          id="cardNumber"
-                          name="cardNumber"
-                          value={formData.cardNumber}
-                          onChange={handleChange}
-                          required
-                          placeholder="XXXX XXXX XXXX XXXX"
-                          className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
-                        />
-                      </div>
-                      
-                      <div className="grid grid-cols-2 gap-4 mb-6">
-                        <div>
-                          <label htmlFor="expDate" className="block text-sm font-medium text-gray-700 mb-1">
-                            Expiration Date <span className="text-red-500">*</span>
+                        <div className="space-y-3">
+                          <label className="flex items-center space-x-3">
+                            <input
+                              type="radio"
+                              name="paymentMethod"
+                              value="card"
+                              checked={formData.paymentMethod === 'card'}
+                              onChange={handleChange}
+                              className="h-4 w-4"
+                            />
+                            <span>Credit/Debit Card</span>
                           </label>
-                          <input
-                            type="text"
-                            id="expDate"
-                            name="expDate"
-                            value={formData.expDate}
-                            onChange={handleChange}
-                            required
-                            placeholder="MM/YY"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
-                          />
-                        </div>
-                        
-                        <div>
-                          <label htmlFor="cvv" className="block text-sm font-medium text-gray-700 mb-1">
-                            CVV <span className="text-red-500">*</span>
+                          <label className="flex items-center space-x-3">
+                            <input
+                              type="radio"
+                              name="paymentMethod"
+                              value="cod"
+                              checked={formData.paymentMethod === 'cod'}
+                              onChange={handleChange}
+                              className="h-4 w-4"
+                            />
+                            <span>Cash on Delivery</span>
                           </label>
-                          <input
-                            type="text"
-                            id="cvv"
-                            name="cvv"
-                            value={formData.cvv}
-                            onChange={handleChange}
-                            required
-                            placeholder="123"
-                            className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
-                          />
                         </div>
                       </div>
+                      
+                      {formData.paymentMethod === 'card' && (
+                        <>
+                          <div className="mb-4">
+                            <label htmlFor="cardName" className="block text-sm font-medium text-gray-700 mb-1">
+                              Name on Card <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              id="cardName"
+                              name="cardName"
+                              value={formData.cardName}
+                              onChange={handleChange}
+                              required
+                              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
+                            />
+                          </div>
+                          
+                          <div className="mb-4">
+                            <label htmlFor="cardNumber" className="block text-sm font-medium text-gray-700 mb-1">
+                              Card Number <span className="text-red-500">*</span>
+                            </label>
+                            <input
+                              type="text"
+                              id="cardNumber"
+                              name="cardNumber"
+                              value={formData.cardNumber}
+                              onChange={handleChange}
+                              required
+                              placeholder="XXXX XXXX XXXX XXXX"
+                              className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
+                            />
+                          </div>
+                          
+                          <div className="grid grid-cols-2 gap-4 mb-6">
+                            <div>
+                              <label htmlFor="expDate" className="block text-sm font-medium text-gray-700 mb-1">
+                                Expiration Date <span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                id="expDate"
+                                name="expDate"
+                                value={formData.expDate}
+                                onChange={handleChange}
+                                required
+                                placeholder="MM/YY"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
+                              />
+                            </div>
+                            
+                            <div>
+                              <label htmlFor="cvv" className="block text-sm font-medium text-gray-700 mb-1">
+                                CVV <span className="text-red-500">*</span>
+                              </label>
+                              <input
+                                type="text"
+                                id="cvv"
+                                name="cvv"
+                                value={formData.cvv}
+                                onChange={handleChange}
+                                required
+                                placeholder="123"
+                                className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-gray-200"
+                              />
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      
+                      {formData.paymentMethod === 'cod' && (
+                        <div className="mb-6 p-4 bg-gray-50 rounded border border-gray-200">
+                          <p className="text-sm text-gray-700">
+                            You will pay the full amount when your order is delivered. Please ensure someone is available to receive the package and make the payment.
+                          </p>
+                        </div>
+                      )}
                       
                       <div className="flex gap-4">
                         <Button
