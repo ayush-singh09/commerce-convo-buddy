@@ -1,10 +1,15 @@
-
 import React, { useState, useEffect, useRef } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useOrder } from '../context/OrderContext';
-import { getInitialOptions, getResponse, QuestionOption, ConversationState, SystemMessage } from '../lib/customerCare';
+import { 
+  getInitialOptions, 
+  getResponse, 
+  QuestionOption, 
+  ConversationState, 
+  SystemMessage 
+} from '../lib/customerCare';
 
 const CustomerCareChat: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
@@ -15,7 +20,6 @@ const CustomerCareChat: React.FC = () => {
   });
   const chatContainerRef = useRef<HTMLDivElement>(null);
 
-  // Initialize chat with order data
   useEffect(() => {
     if (orderId) {
       const order = getOrder(orderId);
@@ -36,7 +40,6 @@ const CustomerCareChat: React.FC = () => {
     }
   }, [orderId, getOrder]);
 
-  // Auto scroll to bottom of chat
   useEffect(() => {
     if (chatContainerRef.current) {
       chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
@@ -46,7 +49,6 @@ const CustomerCareChat: React.FC = () => {
   const handleOptionSelect = (option: QuestionOption) => {
     if (!conversation.order) return;
 
-    // Add user message
     setConversation((prev) => ({
       ...prev,
       messages: [
@@ -58,7 +60,6 @@ const CustomerCareChat: React.FC = () => {
       ],
     }));
 
-    // Simulate typing delay
     setTimeout(() => {
       const response = getResponse(option.id, conversation.order!);
       
@@ -78,7 +79,6 @@ const CustomerCareChat: React.FC = () => {
 
   return (
     <div className="flex flex-col h-screen animate-fade-in">
-      {/* Chat header */}
       <div className="bg-white border-b border-gray-200 px-4 py-4 shadow-sm">
         <div className="container mx-auto flex items-center">
           <Link to={`/order/${orderId}`} className="mr-4">
@@ -93,7 +93,6 @@ const CustomerCareChat: React.FC = () => {
         </div>
       </div>
 
-      {/* Chat container */}
       <div 
         ref={chatContainerRef}
         className="flex-1 overflow-y-auto p-4 bg-gray-50"
@@ -115,7 +114,6 @@ const CustomerCareChat: React.FC = () => {
               >
                 <p>{message.content}</p>
 
-                {/* Response options - Fixed TypeScript error by checking if message is a SystemMessage */}
                 {message.sender === 'system' && (message as SystemMessage).options && (
                   <div className="mt-4 space-y-2">
                     {(message as SystemMessage).options!.map((option) => (
