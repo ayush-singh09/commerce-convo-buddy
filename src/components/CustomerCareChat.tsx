@@ -4,7 +4,7 @@ import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, Send } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useOrder } from '../context/OrderContext';
-import { getInitialOptions, getResponse, QuestionOption, ConversationState } from '../lib/customerCare';
+import { getInitialOptions, getResponse, QuestionOption, ConversationState, SystemMessage } from '../lib/customerCare';
 
 const CustomerCareChat: React.FC = () => {
   const { orderId } = useParams<{ orderId: string }>();
@@ -115,10 +115,10 @@ const CustomerCareChat: React.FC = () => {
               >
                 <p>{message.content}</p>
 
-                {/* Response options */}
-                {message.options && (
+                {/* Response options - Fixed TypeScript error by checking if message is a SystemMessage */}
+                {message.sender === 'system' && (message as SystemMessage).options && (
                   <div className="mt-4 space-y-2">
-                    {message.options.map((option) => (
+                    {(message as SystemMessage).options!.map((option) => (
                       <button
                         key={option.id}
                         onClick={() => handleOptionSelect(option)}

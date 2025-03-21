@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../components/Navbar';
@@ -19,7 +18,7 @@ type FormData = {
   state: string;
   zipCode: string;
   country: string;
-  paymentMethod: string;
+  paymentMethod: 'card' | 'cod';
   cardName: string;
   cardNumber: string;
   expDate: string;

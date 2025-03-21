@@ -99,7 +99,8 @@ type CartContextType = {
 
 const CartContext = createContext<CartContextType | undefined>(undefined);
 
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+// Change from CartProvider to CartContextProvider to match import in App.tsx
+const CartContextProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const initialState = {
     items: [],
     total: 0
@@ -158,3 +159,6 @@ export const useCart = (): CartContextType => {
   
   return context;
 };
+
+// Export CartContextProvider as default
+export default CartContextProvider;

@@ -19,6 +19,7 @@ export type Order = {
   createdAt: string;
   shippingAddress: ShippingAddress;
   paymentMethod?: 'card' | 'cod';
+  trackingNumber?: string; // Add the trackingNumber property
 };
 
 type OrderContextType = {
