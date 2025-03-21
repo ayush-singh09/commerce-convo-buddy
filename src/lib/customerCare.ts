@@ -1,4 +1,3 @@
-
 import { Order } from '../context/OrderContext';
 
 export type QuestionOption = {
@@ -176,7 +175,7 @@ export const getResponse = (optionId: string, order: Order): ResponseData => {
 
     case 'poor-quality':
       return {
-        text: 'We're sorry to hear the product didn't meet your quality expectations. Your feedback is valuable to us. Would you like to return the item or share specific feedback about the quality issues?',
+        text: 'We\'re sorry to hear the product didn\'t meet your quality expectations. Your feedback is valuable to us. Would you like to return the item or share specific feedback about the quality issues?',
         followUp: [
           { id: 'return-for-refund', text: 'I want to return it for a refund' },
           { id: 'provide-feedback', text: 'I want to provide detailed feedback' },
@@ -186,7 +185,7 @@ export const getResponse = (optionId: string, order: Order): ResponseData => {
 
     case 'stopped-working':
       return {
-        text: 'We apologize for the inconvenience. How long were you using the product before it stopped working? This will help us determine if it's covered under warranty.',
+        text: 'We apologize for the inconvenience. How long were you using the product before it stopped working? This will help us determine if it\'s covered under warranty.',
         followUp: [
           { id: 'within-warranty', text: 'Less than the warranty period' },
           { id: 'outside-warranty', text: 'Beyond the warranty period' },
@@ -197,7 +196,7 @@ export const getResponse = (optionId: string, order: Order): ResponseData => {
 
     case 'request-replacement':
       return {
-        text: 'We'll process a replacement for your defective item. Please keep the original packaging as our courier will collect it when delivering your replacement. You should receive the replacement within 5-7 business days.',
+        text: 'We\'ll process a replacement for your defective item. Please keep the original packaging as our courier will collect it when delivering your replacement. You should receive the replacement within 5-7 business days.',
         followUp: [
           { id: 'replacement-status', text: 'Check replacement status' },
           { id: 'back-to-main', text: 'Back to main options' },
@@ -206,7 +205,7 @@ export const getResponse = (optionId: string, order: Order): ResponseData => {
 
     case 'within-warranty':
       return {
-        text: 'Since your product is still under warranty, you're eligible for a free repair or replacement. Would you like us to arrange for a replacement or would you prefer to have it repaired?',
+        text: 'Since your product is still under warranty, you\'re eligible for a free repair or replacement. Would you like us to arrange for a replacement or would you prefer to have it repaired?',
         followUp: [
           { id: 'request-replacement', text: 'I want a replacement' },
           { id: 'request-repair', text: 'I want it repaired' },
@@ -218,8 +217,8 @@ export const getResponse = (optionId: string, order: Order): ResponseData => {
       return {
         text: 'Even though your product is outside the warranty period, we may be able to offer a discounted repair service or a special discount on a new purchase. Would you be interested in either option?',
         followUp: [
-          { id: 'discounted-repair', text: 'I'm interested in the discounted repair' },
-          { id: 'new-purchase-discount', text: 'I'm interested in a discount on a new product' },
+          { id: 'discounted-repair', text: 'I\'m interested in the discounted repair' },
+          { id: 'new-purchase-discount', text: 'I\'m interested in a discount on a new product' },
           { id: 'back-to-main', text: 'Back to main options' },
         ],
       };
